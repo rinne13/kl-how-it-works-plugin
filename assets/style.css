@@ -95,3 +95,95 @@
 .btn-cta:hover {
   filter: brightness(0.97);
 }
+
+/* ===== Base layout (есть в твоем стиле, на всякий случай компактно) */
+.kl-hiw {
+  margin: 28px 0;
+}
+.kl-hiw__grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  counter-reset: hiw-step; /* для нумерации */
+}
+.kl-hiw__grid.cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.kl-hiw__grid.cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 900px) {
+  .kl-hiw__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .kl-hiw__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.kl-hiw__item {
+  position: relative;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(17, 24, 39, 0.06);
+  padding: 18px;
+  text-align: center;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+.kl-hiw__item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(17, 24, 39, 0.08);
+}
+
+.kl-hiw__icon {
+  width: 56px;
+  height: 56px;
+  margin: 6px auto 12px;
+  border-radius: 14px;
+  background: #f1f5f9;
+  color: #2c5f2d;
+  display: grid;
+  place-items: center;
+}
+.kl-hiw__icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.kl-hiw__item-title {
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+  color: #111827;
+}
+.kl-hiw__item-text {
+  color: #6b7280;
+  margin: 0;
+}
+
+/* ===== numbers ===== */
+.kl-hiw--numbers .kl-hiw__grid {
+  counter-reset: hiw-step;
+}
+.kl-hiw--numbers .kl-hiw__item::before {
+  counter-increment: hiw-step;
+  content: counter(hiw-step);
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: var(--brand, #2c5f2d);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.95rem;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 6px 16px rgba(44, 95, 45, 0.25);
+}

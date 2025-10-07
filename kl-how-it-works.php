@@ -268,27 +268,29 @@ class KL_How_It_Works {
     }
 
     /** Render function used by shortcode */
-    public function render($atts = []) {
-        $opt = get_option(self::OPT);
-        $a = shortcode_atts([
-            'heading'    => $opt['heading']    ?? '',
-            'subheading' => $opt['subheading'] ?? '',
-            'columns'    => (int)($opt['columns'] ?? 4),
-        ], $atts, 'kl_how_it_works');
+   public function render($atts = []) {
+    $opt = get_option(self::OPT);
+    $a = shortcode_atts([
+        'heading'    => $opt['heading']    ?? '',
+        'subheading' => $opt['subheading'] ?? '',
+        'columns'    => (int)($opt['columns'] ?? 4),
+        // NEW:
+        'style'      => 'numbers', // numbers | arrows | circles
+    ], $atts, 'kl_how_it_works');
 
-        $steps = is_array($opt['steps'] ?? null) ? $opt['steps'] : [];
-        if (!$steps) return '';
+    $steps = is_array($opt['steps'] ?? null) ? $opt['steps'] : [];
+    if (!$steps) return '';
 
-        $icons = $this->icons();
+    $icons = $this->icons();
+    $style_class = 'kl-hiw--' . sanitize_key($a['style']);
 
-       ob_start(); ?>
-<section class="home-section kl-hiw">
+    ob_start(); ?>
+<section class="home-section kl-hiw <?php echo esc_attr($style_class); ?>">
   <div class="container">
     <header class="home-section__header">
       <?php if ($a['heading']) : ?>
         <h2 class="home-section__title"><?php echo esc_html($a['heading']); ?></h2>
       <?php endif; ?>
-      <!-- справа можем вывести ссылку, если понадобится -->
       <?php if (!empty($a['subheading'])): ?>
         <span class="home-section__hint muted"><?php echo esc_html($a['subheading']); ?></span>
       <?php endif; ?>
@@ -300,8 +302,7 @@ class KL_How_It_Works {
           <div class="kl-hiw__icon" aria-hidden="true">
             <?php
               $key = sanitize_key($st['icon'] ?? 'chat');
-              $svg = $icons[$key] ?? $icons['chat'];
-              echo $svg;
+              echo $icons[$key] ?? $icons['chat'];
             ?>
           </div>
           <?php if (!empty($st['title'])) : ?>
@@ -323,9 +324,9 @@ class KL_How_It_Works {
   </div>
 </section>
 <?php
-return ob_get_clean();
+    return ob_get_clean();
+}
 
-    }
 
     /** Shortcode callback */
     public function shortcode($atts) {
